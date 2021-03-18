@@ -22,6 +22,27 @@ Match Group sftp-writer
         X11Forwarding no
 ```
 
+mkdir /var/sftp/
+chown root:root /var/sftp
+chmod 755 /var/sftp
+mkdir /var/sftp/files
+chown root:root /var/sftp/files
+chmod 755 /var/sftp/files
+groupadd sftp-writer
+groupadd sftp
+
+
+# Creating consumer
+```
+useradd <consumer>
+usermod -a -G sftp <consumer>
+sudo su <consumer>
+ssh-keygen
+cat /home/<consumer>/.ssh/id_rsa.pub > /home/<consumer>/.ssh/authorized_keys
+```
+Send name of consumer, server name and /home/<consumer>/id_rsa to consumer. 
+
+
 
 ### Folder structure
 All sftp files are located in ```/var/sftp/files/{hospital_user}```. Hospitals can only read their own hospital files while the reports generators will be able to read everything (but not write). 
@@ -30,6 +51,4 @@ All sftp files are located in ```/var/sftp/files/{hospital_user}```. Hospitals c
 ### Create new hospital client
 
 - Run ```makesftpuser hospital_sftp_user```
-- Add the private key generated in the hospital sftp server at ```/home/bahmni_support/.ssh/sftp_key_rsa```
-
-
+- Send the user name and private key generated to the hospital administrator. Instructions to set it up is available in the sftp-client folder of this repository. 
