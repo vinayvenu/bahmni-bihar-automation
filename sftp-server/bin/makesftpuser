@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+USER=$1
+
+adduser $USER
+usermod -a -G sftp-writer $USER
+
+mkdir -p /var/sftp/files/${USER}
+chown ${USER}:sftp /var/sftp/files/${USER}
+chmod 750 /var/sftp/files/${USER}
+
+SSH_DIR=/home/${USER}/.ssh
+mkdir -p $SSH_DIR
+chown ${USER}:${USER} $SSH_DIR
+chmod 755 $SSH_DIR
+ssh-keygen -q -f ${SSH_DIR}/id_rsa
+cat ${SSH_DIR}/id_rsa.pub > ${SSH_DIR}/authorized_keys
+echo "Add the following content to the hospital /home/bahmni_support/.ssh/sftp_key_rsa. Ensure permissions for file to 600"
+cat ${SSH_DIR}/id_rsa
