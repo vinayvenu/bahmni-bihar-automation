@@ -22,6 +22,8 @@ Match Group sftp-writer
         X11Forwarding no
 ```
 
+Add necessary directories and user groups
+```
 mkdir /var/sftp/
 chown root:root /var/sftp
 chmod 755 /var/sftp
@@ -30,17 +32,23 @@ chown root:root /var/sftp/files
 chmod 755 /var/sftp/files
 groupadd sftp-writer
 groupadd sftp
+```
+
+Copy over makesftpuser to an executable location
 
 
 # Creating consumer
+First, get the consumer to create an rsa using ssh-keygen and send you the public key. You will need it for them to connect using sftp
+
 ```
 useradd <consumer>
 usermod -a -G sftp <consumer>
 sudo su <consumer>
-ssh-keygen
-cat /home/<consumer>/.ssh/id_rsa.pub > /home/<consumer>/.ssh/authorized_keys
+echo "<ssh public key obtained from consumer>" > /home/<consumer>/.ssh/authorized_keys
 ```
 Send name of consumer, server name and /home/<consumer>/id_rsa to consumer. 
+
+
 
 
 
