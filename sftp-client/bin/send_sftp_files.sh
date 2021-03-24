@@ -1,6 +1,7 @@
 #!/bin/bash
 
-python create_sftp_files.py
+DIRECTORY=$(cd `dirname $0` && pwd)
+python ${DIRECTORY}/create_sftp_files.py
 
 FILE_DATE=`date +%Y-%m-%d -d "yesterday"`
 
